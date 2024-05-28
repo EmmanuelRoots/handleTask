@@ -12,13 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const db_1 = __importDefault(require("./src/db/db"));
-const user_router_1 = require("./src/router/user.router");
-const app = (0, express_1.default)();
-app.use(express_1.default.json());
-app.use('/register', user_router_1.userRouter);
-app.listen(8081, () => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, db_1.default)();
-    console.log('lancé le appli');
-}));
+const mongoose_1 = __importDefault(require("mongoose"));
+const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield mongoose_1.default.connect('mongodb+srv://emrazanakoto:XUaWftobL6jeG0Qp@handletask.brxvyg7.mongodb.net/handleTaskBd?retryWrites=true&w=majority&appName=handleTask');
+        console.log('MongoDB connected');
+    }
+    catch (err) {
+        console.error(err);
+        process.exit(1);
+    }
+});
+exports.default = connectDB;
