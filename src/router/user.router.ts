@@ -1,20 +1,19 @@
 import { Router } from "express";
 import { TokenMiddleware } from "../middleware/token.middleware";
-import { register } from "../controller/user.controller";
+import { register,login } from "../controller/user.controller";
 
 export const userRouter = Router()
 // userRouter.use(TokenMiddleware)
 
 userRouter.post(
-  '/user',
+  '/register',
   register
 )
 
-// userRouter.get(
-//   '/get',
-//     TokenMiddleware,
-//    get
-// )
+userRouter.post(
+  '/login',
+   login
+)
 
 
 export default userRouter

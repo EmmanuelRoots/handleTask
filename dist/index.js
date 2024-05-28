@@ -15,9 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("./src/db/db"));
 const user_router_1 = require("./src/router/user.router");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.use('/register', user_router_1.userRouter);
+app.use('/user', user_router_1.userRouter);
 app.listen(8081, () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, db_1.default)();
     console.log('lancé le appli');
