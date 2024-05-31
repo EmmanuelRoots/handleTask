@@ -8,21 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield mongoose_1.default.connect(process.env.MONGO_URI);
-        console.log('MongoDB connected');
-    }
-    catch (err) {
-        console.error(err);
-        process.exit(1);
-    }
-});
-exports.default = connectDB;
+exports.MessageController = void 0;
+const message_model_1 = require("../model/message,model");
+exports.MessageController = {
+    createMessage: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { content, sender, recipient } = req.body;
+        try {
+            const newMessage = new message_model_1.Message({ content, sender, recipient });
+            yield newMessage.save();
+            res.json(newMessage);
+        }
+        catch (error) {
+            console.error('Erreur lors de la création du message :', error);
+            res.status(500).json({ message: 'Erreur lors de la création du message' });
+        }
+    }),
+};

@@ -53,7 +53,6 @@ const register = [
 const login = [
   body('email').isEmail().withMessage('Invalid email'),
   body('password').exists().withMessage('Password is required'),
-
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -81,7 +80,7 @@ const login = [
 
       const token = jwt.sign(payload, 'your_jwt_secret', { expiresIn: '1h' });
 
-      res.json({ token : token, user : payload.user });
+      res.json({token });
     } catch (err:any) {
       console.error(err.message);
       res.status(500).send('Server error');

@@ -79,7 +79,7 @@ const login = [
                 }
             };
             const token = jsonwebtoken_1.default.sign(payload, 'your_jwt_secret', { expiresIn: '1h' });
-            res.json({ token: token, user: payload.user });
+            res.json({ token });
         }
         catch (err) {
             console.error(err.message);

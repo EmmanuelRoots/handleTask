@@ -1,15 +1,18 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
-export const TokenMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const { headers: { authorization } } = req
+export const auth = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.header('x-auth-token');
 
-  if (!authorization) {
-    res.status(401).send('Token manquant')
-  } else {
-    if (authorization === 'Tiny') {
-      next()
-    } else {
-      res.status(403).send('Vous ne pouvez pas entrer ici')
-    }
+  if (!token) {
+    return res.status(401).json({ msg: 'No token, authorization denied' });
   }
-}
+
+  try {
+    const decoded = jwt.verify(token, 'your_jwt_secret');
+    (req as any).user = (decoded as any).user;
+    next();
+  } catch (err) {
+    res.status(401).json({ msg: 'Token is not valid' });
+  }
+};
